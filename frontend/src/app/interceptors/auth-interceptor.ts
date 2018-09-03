@@ -14,9 +14,7 @@ export class AuthInterceptor implements HttpInterceptor{
         let auth = this.userService.getBasicAuthValue();
         let user = this.userService.getCurrentUser();
         const headers = new HttpHeaders({
-            'Authorization': auth, 
-            'KieServerHost': user.kieServerHost,
-            'KieContainerName': user.kieContainerName
+            'Authorization': auth
         });
 
         const _request = request.clone({headers});

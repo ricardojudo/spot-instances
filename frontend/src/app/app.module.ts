@@ -7,7 +7,7 @@ import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -39,7 +39,8 @@ import { PriceFrecuencyComponent } from './price-frecuency/price-frecuency.compo
     FormsModule,
     NgbModule.forRoot(),
     ChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    AmplifyAngularModule
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
@@ -51,6 +52,7 @@ import { PriceFrecuencyComponent } from './price-frecuency/price-frecuency.compo
     PriceFrecuencyService,
     AuthGuard,
     UserService,
+    AmplifyService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

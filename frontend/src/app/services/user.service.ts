@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from "@angular/common/http";
+import { AmplifyService }  from 'aws-amplify-angular';
+import { Auth } from 'aws-amplify';
 
 import { Subject } from 'rxjs';
-
 import { User } from "../models/user";
 
 
@@ -12,11 +13,25 @@ export class UserService {
 
   userObserver:Subject<User>=new Subject();
 
-  constructor() { }
+  constructor( private amplifyService: AmplifyService ) {
+  }
 
-  signin(user:User){    
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    this.userObserver.next(user);
+  signIn(username, password,callback){    
+    let _user = new User()
+    _user.name=username
+    _user.password=password;
+
+    this.amplifyService.auth().signIn(username,password)
+    .then(user =>{
+      localStorage.removeItem("currentUser");
+      localStorage.setItem("currentUser", JSON.stringify(_user));
+      this.userObserver.next(user);  
+      callback()
+    } )
+    .catch(err => {
+      localStorage.removeItem("currentUser");
+      callback(err)
+    });
   }
 
   getCurrentUser():User{
@@ -31,25 +46,10 @@ export class UserService {
   }
 
   signout(){
-    localStorage.removeItem("currentUser");
-    this.userObserver.next(null);
-  }
-
-  getCurrentAuthHeaders(){
-    return this.appendCurrentAuthHeaders(new HttpHeaders());
-  }
-
-  appendCurrentAuthHeaders(headers: HttpHeaders){
-   headers.append('Authorization',this.getBasicAuthValue())
-    return headers;
-  }
-
-  getBasicAuthValue(){
-    let user = this.getCurrentUser();
-    //console.log(">>> User: "+ user);
-    let credentials=this.getCurrentUser().getCredentials();
-    let basicCredentials=`Basic ${btoa(credentials)}`;
-    return basicCredentials;
+    this.amplifyService.auth().signOut().then(()=>{
+      localStorage.removeItem("currentUser");
+      this.userObserver.next(null);
+    })
   }
 
 }

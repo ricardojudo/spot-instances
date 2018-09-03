@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { AmplifyService }  from 'aws-amplify-angular';
 import { UserService } from "../services/user.service";
-import { User } from "../models/user";
 
 @Component({
   selector: 'app-sign-in',
@@ -11,19 +10,21 @@ import { User } from "../models/user";
 })
 export class SignInComponent implements OnInit {
 
-  user: User = new User();
+ username?:string
+ password?:string
 
   constructor(private userService: UserService,
+    private amplifyService:AmplifyService,
     private router: Router) { }
 
   ngOnInit() {    
-    this.user.kieContainerName="solar-village"
-    this.user.kieServerHost="http://localhost:8080"
   }
 
-  signin(){
-    this.userService.signin(this.user);
-    this.router.navigate(['/']);
+  signIn(){
+    console.log("SignIn "+ this.username)
+    this.userService.signIn(this.username,this.password,(err) =>{
+      this.router.navigate(['/']);
+    });
   }
 
 

@@ -16,9 +16,7 @@ export class PriceFrecuencyComponent implements OnInit {
   availabilityZone:string = "us-east-1a"
   records = []
 
-  chartDataSets:any[] = [
-    {data: [10,20,30,45,80,90,50,10], label: 'Spot Price'},
-  ];
+  chartDataSets:any[] = [];
   chartType="bar"
   chartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
 
@@ -27,23 +25,18 @@ export class PriceFrecuencyComponent implements OnInit {
   }
 
   update(){
-    this.records = this.priceFrecuencyService.getPricesFrecuency();
-    
-    /*
-    var data=[];
-    var chartLabels= []
-   
-    
-    this.records.forEach(function(value, index){
-      chartLabels.push(value.loweLimit)
-      data.push(value.spotPrice)
-      console.log(value)
+    this.priceFrecuencyService.getPricesFrecuency(
+      this.instanceType,this.productDescription).subscribe((records)=>{
+      this.records = records;
+      var data=[]
+      var chartLabels=[]
+      this.records.forEach(function(value, index){
+        chartLabels.push(value.highLimit)
+        data.push(value.frecuency)
+      });
+      this.chartDataSets= [{data: data, label: 'Frecuency'}]
+      this.chartLabels = chartLabels      
     });
-
-    this.chartLabels = chartLabels
-    this.chartDataSets = []
-    this.chartDataSets.push({data:data, label:'Spot Price'})
-    */
   }
 
 }

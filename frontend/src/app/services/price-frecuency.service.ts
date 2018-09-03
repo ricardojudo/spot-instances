@@ -1,15 +1,28 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+import { Observable } from "rxjs/Observable";
+import { of } from "rxjs/observable/of";
+import { catchError, tap, map } from "rxjs/operators";
 
 import { FrecuencyRecord } from "../models/frecuency-record";
 import { SpotPriceRecord } from "../models/spot-price-record";
 import { AwsSpotPricesService } from "./aws-spot-prices.service";
 
+const histURL = 'https://cloud.opencpu.org/ocpu/library/graphics/R/hist'
+
 @Injectable()
 export class PriceFrecuencyService {
+  
+  constructor(
+    private http: HttpClient) { }
 
-  constructor(private awsSpotPricesService: AwsSpotPricesService) { }
+  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyRecord[]>{
+    
+    //TODO Get prices from AWS SDK
 
-  getPricesFrecuency():FrecuencyRecord[]{
+    //TODO Generate frecuency records
+
     var records:FrecuencyRecord[] = [
       {lowLimit:0.011, highLimit:0.021, frecuency:1, percentace:0.05},
       {lowLimit:0.021, highLimit:0.031, frecuency:4, percentace:0.10},
@@ -21,6 +34,8 @@ export class PriceFrecuencyService {
       {lowLimit:0.081, highLimit:0.090, frecuency:6, percentace:0.05}
     ];
 
-    return records;
+    
+
+    return of(records);
   }
 }
