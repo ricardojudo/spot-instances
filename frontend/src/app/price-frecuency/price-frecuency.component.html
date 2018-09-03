@@ -3,7 +3,8 @@
   <form class="form-inline">
     <div class="form-group mb-2">
       <label for="instanceType">Instance Type</label>
-      <select class="form-control" id="instanceType" name="instanceType">
+      <select class="form-control" [(ngModel)]="instanceType" 
+        id="instanceType" name="instanceType">
         <option>t2.micro</option>
         <option>t2.small</option>
         <option selected="selected">t2.medium</option>
@@ -14,7 +15,8 @@
     </div>
     <div class="form-group mx-sm-3 mb-2">
       <label for="productDescription">Product Description</label>
-      <select class="form-control" id="productDescription" name="productDescription">
+      <select class="form-control" [(ngModel)]="productDescription" 
+        id="productDescription" name="productDescription">
         <option>Linux/UNIX</option>
         <option>Windows</option>
         <option>SUSE</option>        
@@ -22,7 +24,8 @@
     </div>  
     <div class="form-group mx-sm-3 mb-2">
       <label for="availabilityZone">Availability Zone</label>
-      <select class="form-control" id="availabilityZone" name="availabilityZone">
+      <select class="form-control" [(ngModel)]="availabilityZone" 
+        id="availabilityZone" name="availabilityZone">
         <option>us-east-1a</option>
         <option>us-east-1b</option>
         <option>us-east-1c</option>
@@ -31,7 +34,7 @@
         <option>us-east-1f</option>        
       </select>
     </div>  
-    <button type="button" class="btn btn-primary mb-2">Update</button>  
+    <button type="button" (click)="update()" class="btn btn-primary mb-2">Update</button>  
   </form>
   </div>
 </div>
@@ -62,7 +65,13 @@
   </div>
   <div class="col-sm-6">
     <div class="card">
-      <div class="card-body"></div>
+      <div class="card-body">
+        <canvas baseChart width="400" height="350" 
+          [datasets]="chartDataSets"
+          chartType="bar"
+          [labels]="chartLabels"
+        ></canvas>
+      </div>
     </div>
   </div>
 </div>

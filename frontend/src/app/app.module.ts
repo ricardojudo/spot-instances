@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +38,7 @@ import { PriceFrecuencyComponent } from './price-frecuency/price-frecuency.compo
     AppRoutingModule,
     FormsModule,
     NgbModule.forRoot(),
+    ChartsModule,
     HttpClientModule
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
