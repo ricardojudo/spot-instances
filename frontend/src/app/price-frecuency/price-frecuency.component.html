@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-sm-12">
+  <form class="form-inline">
+    <div class="form-group mb-2">
+      <label for="instanceType">Instance Type</label>
+      <select class="form-control" id="instanceType" name="instanceType">
+        <option>t2.micro</option>
+        <option>t2.small</option>
+        <option selected="selected">t2.medium</option>
+        <option>t2.large</option>
+        <option>t2.xlarge</option>
+        <option>t2.2xlarge</option>
+      </select>
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+      <label for="productDescription">Product Description</label>
+      <select class="form-control" id="productDescription" name="productDescription">
+        <option>Linux/UNIX</option>
+        <option>Windows</option>
+        <option>SUSE</option>        
+      </select>
+    </div>  
+    <div class="form-group mx-sm-3 mb-2">
+      <label for="availabilityZone">Availability Zone</label>
+      <select class="form-control" id="availabilityZone" name="availabilityZone">
+        <option>us-east-1a</option>
+        <option>us-east-1b</option>
+        <option>us-east-1c</option>
+        <option>us-east-1d</option>
+        <option>us-east-1e</option>
+        <option>us-east-1f</option>        
+      </select>
+    </div>  
+    <button type="button" class="btn btn-primary mb-2">Update</button>  
+  </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Low</th>
+              <th>Hight</th>
+              <th>Abs Frec</th>
+              <th>Rel Frec</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of records">
+              <td>{{record.lowLimit}}</td>
+              <td>{{record.highLimit}}</td>
+              <td>{{record.frecuency}}</td>
+              <td>{{record.percentace}}</td>
+            </tr>
+          </tbody>                                                                                                   
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">
+    <img style="max-width:120px; margin-top: -7px;"
+    src="assets/logo.png">
+
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto" *ngIf="currentUser">
+      <li class="nav-item">
+        <a #newOrdersLink class="nav-link" href="#" routerLink="/price-frecuency" routerLinkActive="active">Prices Frecuency</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav navbar-right" *ngIf="currentUser">
+     <!--
+      <li class="nav-item">
+        <a #serverInfo class="nav-link" href="#" routerLink="/server-info" routerLinkActive="active">Server Info</a>
+      </li>
+    -->  
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle><fa ></fa>{{currentUser.name}}</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
+          <button class="dropdown-item btn btn-link" type="button" (click)="signOut()">Sign Out</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
