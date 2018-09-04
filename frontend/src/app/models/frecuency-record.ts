@@ -13,6 +13,10 @@ export class FrecuencyRecord{
       this.frecuency = prices.filter(i => i>=this.lowLimit && i<=this.highLimit).length
       this.percentace = this.frecuency / n
     }
+
+    as_data(){
+        return {label: this.highLimit.toPrecision(4), value: this.frecuency}
+    }
 }
 
 export class FrecuencyTable{
@@ -24,6 +28,7 @@ export class FrecuencyTable{
     max:number
     min:number
     n:number
+    data:object[] = []
     classes: number[] = []
     frecuencies: number[] = []
 
@@ -36,13 +41,14 @@ export class FrecuencyTable{
         this.k=Math.sqrt(this.n)
         this.w = this.r/this.k;
 
-        for(var i=this.min;i<=this.max;i+=this.w){         
+        for(var i=this.min;i<this.max;i+=this.w){         
           this.classes.push(i)
           var record = new FrecuencyRecord(i, i + this.w)
           record.build(prices)
           this.records.push(record)
+          this.data.push(record.as_data())
         }
-
+        console.log(this.data)
 
     }
 }

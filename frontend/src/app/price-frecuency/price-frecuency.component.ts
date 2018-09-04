@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FrecuencyRecord } from "../models/frecuency-record";
+import { FrecuencyRecord, FrecuencyTable } from "../models/frecuency-record";
 import { PriceFrecuencyService } from "../services/price-frecuency.service";
 import { Subject } from 'rxjs';
 import { Observable } from "rxjs/Observable";
@@ -17,6 +17,7 @@ export class PriceFrecuencyComponent implements OnInit {
   productDescription: string = "Linux/UNIX"
   availabilityZone:string = "us-east-1a"
   records = []
+  table:FrecuencyTable
 
   instanceTypes: string[] = [
     "t2.nano","t2.micro","t2.small","t2.medium","t2.large","t2.xlarge","t2.2xlarge",
@@ -56,13 +57,13 @@ export class PriceFrecuencyComponent implements OnInit {
   ]
 
   //chartLabels:string[] = ["1","2","3","42","25"]
-  chartLabels$:Subject<string[]> = new Subject<string[]>()
-  chartDataSets$:Subject<any[]> = new Subject<any[]>()
-  chartType="bar"
+  //chartLabels$:Subject<string[]> = new Subject<string[]>()
+  //chartDataSets$:Subject<any[]> = new Subject<any[]>()
+  //chartType="bar"
   
-  chartLabels:string[] = []
-  chartDataSets:any[] = [{data: [], label: 'Frecuency'}]
-  chartData:number[] = []
+  //chartLabels:string[] = []
+  //chartDataSets:any[] = [{data: [], label: 'Frecuency'}]
+  //chartData:number[] = []
   
 
   ngOnInit() {
@@ -75,24 +76,40 @@ export class PriceFrecuencyComponent implements OnInit {
     this.priceFrecuencyService.getPricesFrecuency(
       this.instanceType,this.productDescription).subscribe((table)=>{
       console.log(table)
+      this.table = table
       this.records = table.records;
-      var data=[]
-      var labels=[]
-      this.records.forEach(function(value, index){
-        labels.push(''+value.highLimit)
-        data.push(value.frecuency)        
-      });
       
-      this.chartLabels=labels
+      
+      //this.chartLabels=labels
       //this.chartData = data
-      //this.chartLabels$.next(labels)
-      
-      //this.chartDataSets$.next([{data: data, label: 'Frecuency'}])
-      
-      this.chartDataSets=[{data: data, label: 'Frecuency'}]
+      //this.chartLabels$.next(labels)      
+      //this.chartDataSets$.next([{data: data, label: 'Frecuency'}])      
+      //this.chartDataSets=[{data: data, label: 'Frecuency'}]
+
+      this.dataSource={
+        chart: {
+            "caption": "Spot Prices",
+            "xAxisName": "Price",
+            "yAxisName": "Frecuency",
+            "theme": "carbon",
+        },
+        // Chart Data
+        "data": table.data
+    }
+
+
     });
-
-
   }
+
+  dataSource: Object= {
+    chart: {
+        "caption": "Spot Prices",
+        "xAxisName": "Price",
+        "yAxisName": "Frecuency",
+        "theme": "fusion",
+    },
+    // Chart Data
+    "data": []
+};
 
 }
