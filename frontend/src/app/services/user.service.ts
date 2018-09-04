@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from "@angular/common/http";
 import { AmplifyService }  from 'aws-amplify-angular';
-import { Auth } from 'aws-amplify';
 
 import { Subject } from 'rxjs';
 import { User } from "../models/user";
@@ -45,7 +44,7 @@ export class UserService {
     this.userObserver.subscribe(callback);
   }
 
-  signout(){
+  signOut(){
     this.amplifyService.auth().signOut().then(()=>{
       localStorage.removeItem("currentUser");
       this.userObserver.next(null);

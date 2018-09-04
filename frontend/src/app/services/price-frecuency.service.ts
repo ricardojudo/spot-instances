@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
+import { Subject } from 'rxjs';
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
 import { catchError, tap, map } from "rxjs/operators";
 
-import { FrecuencyRecord } from "../models/frecuency-record";
+import { FrecuencyRecord, FrecuencyTable } from "../models/frecuency-record";
 import { SpotPriceRecord } from "../models/spot-price-record";
 import { AwsSpotPricesService } from "./aws-spot-prices.service";
+
+
 
 const histURL = 'https://cloud.opencpu.org/ocpu/library/graphics/R/hist'
 
@@ -15,27 +18,29 @@ const histURL = 'https://cloud.opencpu.org/ocpu/library/graphics/R/hist'
 export class PriceFrecuencyService {
   
   constructor(
-    private http: HttpClient) { }
+    private awsSpotPricesService:AwsSpotPricesService) { }
 
-  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyRecord[]>{
+
+  
+
+  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyTable>{
+    let table=new FrecuencyTable()
+    let subject=new Subject<FrecuencyTable>()
+    //Get prices from AWS SDK
+    this.awsSpotPricesService.getPrices(instanceType, productDescription).subscribe((records)=>{
+      let history = records["SpotPriceHistory"];      
+      let prices=history.map((e)=> parseFloat(e["SpotPrice"]))
+      console.log(prices)
+      table.build(prices)
+      subject.next(table)
+    })
     
-    //TODO Get prices from AWS SDK
+    return subject
 
-    //TODO Generate frecuency records
 
-    var records:FrecuencyRecord[] = [
-      {lowLimit:0.011, highLimit:0.021, frecuency:1, percentace:0.05},
-      {lowLimit:0.021, highLimit:0.031, frecuency:4, percentace:0.10},
-      {lowLimit:0.031, highLimit:0.041, frecuency:40, percentace:0.12},
-      {lowLimit:0.041, highLimit:0.051, frecuency:45, percentace:0.15},
-      {lowLimit:0.051, highLimit:0.061, frecuency:46, percentace:0.30},
-      {lowLimit:0.061, highLimit:0.071, frecuency:35, percentace:0.15},
-      {lowLimit:0.071, highLimit:0.081, frecuency:10, percentace:0.10},
-      {lowLimit:0.081, highLimit:0.090, frecuency:6, percentace:0.05}
-    ];
 
     
-
-    return of(records);
+    //TODO Move to API
+    //return of(table);
   }
 }
