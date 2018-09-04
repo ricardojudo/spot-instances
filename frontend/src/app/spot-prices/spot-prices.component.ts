@@ -1,23 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FrecuencyRecord, FrecuencyTable } from "../models/frecuency-record";
-import { PriceFrecuencyService } from "../services/price-frecuency.service";
-import { Subject } from 'rxjs';
-import { Observable } from "rxjs/Observable";
+
+import { AwsSpotPricesService } from "../services/aws-spot-prices.service";
 
 @Component({
-  selector: 'app-price-frecuency',
-  templateUrl: './price-frecuency.component.html',
-  styleUrls: ['./price-frecuency.component.css']
+  selector: 'app-spot-prices',
+  templateUrl: './spot-prices.component.html',
+  styleUrls: ['./spot-prices.component.css']
 })
-export class PriceFrecuencyComponent implements OnInit {
-
-  constructor(private priceFrecuencyService: PriceFrecuencyService) { }
-
+export class SpotPricesComponent implements OnInit {
   instanceType: string = "m4.4xlarge"
   productDescription: string = "Linux/UNIX"
   availabilityZone:string = "us-east-1a"
   records = []
-  table:FrecuencyTable
 
   instanceTypes: string[] = [
     "t2.nano","t2.micro","t2.small","t2.medium","t2.large","t2.xlarge","t2.2xlarge",
@@ -56,60 +50,17 @@ export class PriceFrecuencyComponent implements OnInit {
     "z1d.large","z1d.xlarge","z1d.2xlarge","z1d.3xlarge","z1d.6xlarge","z1d.12xlarge"
   ]
 
-  //chartLabels:string[] = ["1","2","3","42","25"]
-  //chartLabels$:Subject<string[]> = new Subject<string[]>()
-  //chartDataSets$:Subject<any[]> = new Subject<any[]>()
-  //chartType="bar"
-  
-  //chartLabels:string[] = []
-  //chartDataSets:any[] = [{data: [], label: 'Frecuency'}]
-  //chartData:number[] = []
-  
+  constructor(private awsSpotPricesService:AwsSpotPricesService) { }
 
   ngOnInit() {
-    this.update();
-    //this.chartLabels$.subscribe(labels => this.chartLabels=labels)
-    //this.chartDataSets$.subscribe(dataSet => this.chartDataSets=dataSet)
+    this.update()
   }
 
   update(){
-    this.priceFrecuencyService.getPricesFrecuency(
-      this.instanceType,this.productDescription).subscribe((table)=>{
-      console.log(table)
-      this.table = table
-      this.records = table.records;
-      
-      
-      //this.chartLabels=labels
-      //this.chartData = data
-      //this.chartLabels$.next(labels)      
-      //this.chartDataSets$.next([{data: data, label: 'Frecuency'}])      
-      //this.chartDataSets=[{data: data, label: 'Frecuency'}]
-
-      this.dataSource={
-        chart: {
-            "caption": "Spot Prices",
-            "xAxisName": "Price",
-            "yAxisName": "Frecuency",
-            "theme": "carbon",
-        },
-        // Chart Data
-        "data": table.data
-    }
-
-
-    });
+    this.awsSpotPricesService.getPrices(this.instanceType,this.productDescription).subscribe(records=>{
+      console.log(records)
+      this.records=records['SpotPriceHistory']
+    })
   }
-
-  dataSource: Object= {
-    chart: {
-        "caption": "Spot Prices",
-        "xAxisName": "Price",
-        "yAxisName": "Frecuency",
-        "theme": "fusion",
-    },
-    // Chart Data
-    "data": []
-};
 
 }
