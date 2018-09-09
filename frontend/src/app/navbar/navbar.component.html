@@ -12,11 +12,14 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto" *ngIf="currentUser">
       <li class="nav-item">
+        <a #spotPricesLink class="nav-link" href="#" routerLink="/spot-prices" routerLinkActive="active">Spot prices</a>
+      </li>
+      <li class="nav-item">
         <a #priceFrecuencyLink class="nav-link" href="#" routerLink="/price-frecuency" routerLinkActive="active">Prices frecuency</a>
       </li>
       <li class="nav-item">
-          <a #spotPricesLink class="nav-link" href="#" routerLink="/spot-prices" routerLinkActive="active">Spot prices</a>
-        </li>
+        <a #statisticsLink class="nav-link" href="#" routerLink="/statistics" routerLinkActive="active">Statistics</a>
+      </li>
     </ul>
     <ul class="navbar-nav navbar-right" *ngIf="currentUser">
      <!--

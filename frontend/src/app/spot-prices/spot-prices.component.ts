@@ -57,7 +57,8 @@ export class SpotPricesComponent implements OnInit {
   }
 
   update(){
-    this.awsSpotPricesService.getPrices(this.instanceType,this.productDescription).subscribe(records=>{
+    let parameters={instanceType:this.instanceType,productDescription:this.productDescription}
+    this.awsSpotPricesService.getPrices(parameters).subscribe(records=>{
       console.log(records)
       this.records=records['SpotPriceHistory']
     })

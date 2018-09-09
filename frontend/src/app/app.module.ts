@@ -27,9 +27,11 @@ import { PriceFrecuencyComponent } from './price-frecuency/price-frecuency.compo
 import { FusionChartsModule } from 'angular-fusioncharts';
 import FusionCharts from 'fusioncharts/core';
 import Column2D from 'fusioncharts/viz/column2d';
+import Line from 'fusioncharts/viz/line';
 import { SpotPricesComponent } from './spot-prices/spot-prices.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 // Include Below Snippet
-FusionChartsModule.fcRoot(FusionCharts, Column2D);
+FusionChartsModule.fcRoot(FusionCharts, Column2D, Line);
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ FusionChartsModule.fcRoot(FusionCharts, Column2D);
     NavbarComponent,
     SignInComponent,
     PriceFrecuencyComponent,
-    SpotPricesComponent
+    SpotPricesComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

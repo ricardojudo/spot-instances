@@ -27,14 +27,14 @@ export class AwsSpotPricesService {
     })
   }
 
-  getPrices(instanceType, productDescription): Observable<any[]>{
+  getPrices(parameters): Observable<any[]>{
     let subject= new Subject<any[]>();
     this.configureEc2Client((ec2)=>{
       var params = {
         StartTime: new Date("2018-08-01T07:08:09"),
         EndTime: new Date(), 
-        InstanceTypes: [instanceType],
-        ProductDescriptions: [productDescription]
+        InstanceTypes: [parameters.instanceType],
+        ProductDescriptions: [parameters.productDescription]
       }
       ec2.describeSpotPriceHistory(params, (err,data)=>{
         if(err){

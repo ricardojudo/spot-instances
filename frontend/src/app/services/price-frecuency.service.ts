@@ -9,10 +9,7 @@ import { catchError, tap, map } from "rxjs/operators";
 import { FrecuencyRecord, FrecuencyTable } from "../models/frecuency-record";
 import { SpotPriceRecord } from "../models/spot-price-record";
 import { AwsSpotPricesService } from "./aws-spot-prices.service";
-
-
-
-const histURL = 'https://cloud.opencpu.org/ocpu/library/graphics/R/hist'
+import { SpotPriceStatistics } from "../models/spot-price-statistics";
 
 @Injectable()
 export class PriceFrecuencyService {
@@ -20,27 +17,33 @@ export class PriceFrecuencyService {
   constructor(
     private awsSpotPricesService:AwsSpotPricesService) { }
 
-
-  
-
-  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyTable>{
-    let table=new FrecuencyTable()
-    let subject=new Subject<FrecuencyTable>()
-    //Get prices from AWS SDK
-    this.awsSpotPricesService.getPrices(instanceType, productDescription).subscribe((records)=>{
+  getStatistics(parameters):Observable<SpotPriceStatistics>{
+    let stats = {}
+    let subject=new Subject<SpotPriceStatistics>()
+    this.awsSpotPricesService.getPrices(parameters).subscribe((records)=>{
       let history = records["SpotPriceHistory"];      
       let prices=history.map((e)=> parseFloat(e["SpotPrice"]))
       console.log(prices)
+      let data=new SpotPriceStatistics(prices)
+      subject.next(data)
+    })    
+    return subject
+  }
+  
+
+  
+  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyTable>{
+    let table=new FrecuencyTable()
+    let subject=new Subject<FrecuencyTable>()
+    let parameters={
+      instanceType: instanceType, productDescription: productDescription
+    }
+    this.awsSpotPricesService.getPrices(parameters).subscribe((records)=>{
+      let history = records["SpotPriceHistory"];      
+      let prices=history.map((e)=> parseFloat(e["SpotPrice"]))
       table.build(prices)
       subject.next(table)
     })
-    
     return subject
-
-
-
-    
-    //TODO Move to API
-    //return of(table);
   }
 }
