@@ -9,9 +9,16 @@ import { SpotPriceStatistics } from "../models/spot-price-statistics";
 export class StatisticsComponent implements OnInit {
 
   parameters={
-    instanceType:'m4.4xlarge',
-    productDescription: 'Linux/UNIX'
+    instanceType:"m4.4xlarge",
+    productDescription:"Linux/UNIX"
   }
+
+
+  search(parameters){
+    this.parameters = parameters;
+    this.update()
+  }
+
 
   statistics:SpotPriceStatistics
   dataSource

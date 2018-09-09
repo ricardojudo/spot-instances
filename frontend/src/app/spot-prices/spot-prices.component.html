@@ -1,42 +1,4 @@
-<div class="row">
-    <div class="col-sm-12">
-    <div class="card">
-        <div class="card-body">
-    <form class="form-inline">
-      <div class="form-group mb-2">
-        <label for="instanceType">Instance Type</label>
-        <select class="form-control" [(ngModel)]="instanceType" 
-          id="instanceType" name="instanceType">
-          <option *ngFor="let _it of instanceTypes">{{_it}}</option>
-        </select>
-      </div>
-      <div class="form-group mx-sm-3 mb-2">
-        <label for="productDescription">Product Description</label>
-        <select class="form-control" [(ngModel)]="productDescription" 
-          id="productDescription" name="productDescription">
-          <option>Linux/UNIX</option>
-          <option>Windows</option>
-          <option>SUSE Linux</option>        
-        </select>
-      </div>  
-      <div class="form-group mx-sm-3 mb-2">
-        <label for="availabilityZone">Availability Zone</label>
-        <select class="form-control" [(ngModel)]="availabilityZone" 
-          id="availabilityZone" name="availabilityZone">
-          <option>us-east-1a</option>
-          <option>us-east-1b</option>
-          <option>us-east-1c</option>
-          <option>us-east-1d</option>
-          <option>us-east-1e</option>
-          <option>us-east-1f</option>        
-        </select>
-      </div>  
-      <button type="button" (click)="update()" class="btn btn-primary mb-2">Update</button>  
-    </form>
-    </div>
-  </div>
-  </div>
-  </div>
+<app-search-filters (parameters)='search($event)'></app-search-filters>
 
   <div class="row">
     <div class="col-xs-12 col-md-12">

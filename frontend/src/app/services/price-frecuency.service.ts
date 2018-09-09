@@ -32,12 +32,10 @@ export class PriceFrecuencyService {
   
 
   
-  getPricesFrecuency(instanceType,productDescription):Observable<FrecuencyTable>{
+  getPricesFrecuency(parameters):Observable<FrecuencyTable>{
     let table=new FrecuencyTable()
     let subject=new Subject<FrecuencyTable>()
-    let parameters={
-      instanceType: instanceType, productDescription: productDescription
-    }
+    
     this.awsSpotPricesService.getPrices(parameters).subscribe((records)=>{
       let history = records["SpotPriceHistory"];      
       let prices=history.map((e)=> parseFloat(e["SpotPrice"]))

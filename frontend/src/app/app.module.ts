@@ -30,6 +30,7 @@ import Column2D from 'fusioncharts/viz/column2d';
 import Line from 'fusioncharts/viz/line';
 import { SpotPricesComponent } from './spot-prices/spot-prices.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { SearchFiltersComponent } from './search-filters/search-filters.component';
 // Include Below Snippet
 FusionChartsModule.fcRoot(FusionCharts, Column2D, Line);
 
@@ -40,7 +41,8 @@ FusionChartsModule.fcRoot(FusionCharts, Column2D, Line);
     SignInComponent,
     PriceFrecuencyComponent,
     SpotPricesComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    SearchFiltersComponent
   ],
   imports: [
     BrowserModule,
